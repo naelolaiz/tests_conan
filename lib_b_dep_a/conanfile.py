@@ -1,15 +1,19 @@
 from conan import ConanFile
-from conan.tools.cmake import CMake, CMakeToolchain, CMakeDeps
+from conan.tools.cmake import CMake, cmake_layout
 
 class LibBDepAConan(ConanFile):
     name = "lib_b_dep_a"
     version = "1.0"
-    settings = "os", "compiler", "build_type", "arch"
-    generators = "cmake"
-    exports_sources = "*"
+
+    settings = "os", "arch", "compiler", "build_type"
+    generators = "CMakeDeps", "CMakeToolchain"
+    exports_sources = "CMakeLists.txt", "*.cpp", "*.h"
 
     def requirements(self):
         self.requires("lib_a_nodeps/1.0")
+
+    def layout(self):
+        cmake_layout(self)
 
     def build(self):
         cmake = CMake(self)
@@ -17,9 +21,6 @@ class LibBDepAConan(ConanFile):
         cmake.build()
 
     def package(self):
-        self.copy("*.h", dst="include", src=".")
-        self.copy("*lib_b_dep_a.lib", dst="lib", keep_path=False)
-        self.copy("*lib_b_dep_a.so", dst="lib", keep_path=False)
-        self.copy("*lib_b_dep_a.dylib", dst="lib", keep_path=False)
-        self.copy("*lib_b_dep_a.a", dst="lib", keep_path=False)
+        cmake = CMake(self)
+        cmake.install()
 

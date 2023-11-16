@@ -1,5 +1,5 @@
 #pragma once
-#include "LibA.h"
+#include <LibA.h>
 
 class LibB {
 public:

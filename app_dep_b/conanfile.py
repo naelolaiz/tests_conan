@@ -6,6 +6,7 @@ class AppDepBConan(ConanFile):
     version = "1.0"
     settings = "os", "compiler", "build_type", "arch"
     generators = "CMakeDeps", "CMakeToolchain"
+    exports_sources = "CMakeLists.txt", "*.cpp"
 
     def requirements(self):
         self.requires("lib_b_dep_a/1.0")
